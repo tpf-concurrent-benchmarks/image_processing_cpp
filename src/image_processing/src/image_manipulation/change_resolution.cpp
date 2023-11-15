@@ -1,4 +1,3 @@
-#include "CImg.h"
 #include <string>
 
 void change_resolution(std::string path, int new_width, int new_height, std::string output_path) {
