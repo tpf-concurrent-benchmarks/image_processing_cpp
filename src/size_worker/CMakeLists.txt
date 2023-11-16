@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(image-processing)
+project(size-worker)
 add_executable(${PROJECT_NAME} src/main.cpp)
 cmake_policy(SET CMP0135 NEW)
 
