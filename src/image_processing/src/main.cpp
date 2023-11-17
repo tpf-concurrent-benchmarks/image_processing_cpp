@@ -16,6 +16,6 @@ int main() {
 
     // change_format(path, output_path);
 
-    crop(path, output_path, 100, 100, 100, 100);
+    crop_centered(path, output_path, 100, 100);
     return 0;
 }
