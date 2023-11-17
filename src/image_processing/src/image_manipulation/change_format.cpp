@@ -10,4 +10,6 @@ void change_format(std::string path, std::string output_path) {
 
     stbi_write_png_compression_level = 9;
     stbi_write_png(output_path.c_str(), input_width, input_height, input_channels, input_image, input_width * input_channels);
+
+    stbi_image_free(input_image);
 }
