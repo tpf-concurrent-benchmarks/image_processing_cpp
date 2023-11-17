@@ -16,11 +16,11 @@ FetchContent_MakeAvailable(cppzmq)
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(Statsd)
 
-# add_subdirectory(../shared shared)
+add_subdirectory(../shared shared)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(${PROJECT_NAME} PRIVATE cppzmq)
-# target_link_libraries(image-processing-gs  PUBLIC shared)
+target_link_libraries(image-processing-gs  PUBLIC shared)
 target_link_libraries(${PROJECT_NAME} PRIVATE cpp-statsd-client)
 
 set(DOWNLOAD_EXTRACT_TIMESTAMP True)

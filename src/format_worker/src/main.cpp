@@ -1,4 +1,5 @@
 #include <iostream>
+#include <image_manipulation/change_format.cpp>
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
