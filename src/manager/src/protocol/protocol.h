@@ -3,24 +3,23 @@
 
 #include "nlohmann/json.hpp"
 #include "zmq.hpp"
-#include <string>
 #include <iostream>
+#include <string>
 
 using json = nlohmann::json;
 
 class Protocol
 {
-public:
+  public:
     Protocol(const std::string &pushPort);
     void send(const std::string &message);
     void close();
 
-private:
+  private:
     zmq::context_t context_;
     zmq::socket_t sender_;
 
     [[nodiscard]] zmq::message_t createZmqMessage(const json &message) const;
 };
 
-
-#endif //PROTOCOL_H
+#endif // PROTOCOL_H

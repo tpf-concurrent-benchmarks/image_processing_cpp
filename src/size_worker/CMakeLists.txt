@@ -25,7 +25,7 @@ add_subdirectory(../shared shared)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(${PROJECT_NAME} PRIVATE cppzmq)
-target_link_libraries(${PROJECT_NAME}  PUBLIC shared)
+target_link_libraries(${PROJECT_NAME} PUBLIC shared)
 target_link_libraries(${PROJECT_NAME} PRIVATE cpp-statsd-client)
 
 set(DOWNLOAD_EXTRACT_TIMESTAMP True)

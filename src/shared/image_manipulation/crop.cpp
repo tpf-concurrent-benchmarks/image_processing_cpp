@@ -4,7 +4,7 @@
 #include "stb_image_write.h"
 #include <string>
 
-void _crop(unsigned char *input_image, std::string output_path, int x, int y, int width, int height, int input_width,
+void _crop(unsigned char *input_image, const std::string& output_path, int x, int y, int width, int height, int input_width,
            int input_height, int input_channels)
 {
     x = std::max(0, std::min(x, input_width - 1));
@@ -12,7 +12,7 @@ void _crop(unsigned char *input_image, std::string output_path, int x, int y, in
     width = std::min(width, input_width - x);
     height = std::min(height, input_height - y);
 
-    unsigned char *cropped_image = new unsigned char[width * height * input_channels];
+    auto *cropped_image = new unsigned char[width * height * input_channels];
 
     for (int j = 0; j < height; ++j)
     {
@@ -32,7 +32,7 @@ void _crop(unsigned char *input_image, std::string output_path, int x, int y, in
     delete[] cropped_image;
 }
 
-void crop(std::string path, std::string output_path, int x, int y, int width, int height)
+void crop(const std::string& path, const std::string& output_path, int x, int y, int width, int height)
 {
     int input_width, input_height, input_channels;
     unsigned char *input_image = stbi_load(path.c_str(), &input_width, &input_height, &input_channels, 0);

@@ -4,7 +4,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-void change_format(std::string path, std::string output_path)
+void change_format(const std::string& path, const std::string& output_path)
 {
     int input_width, input_height, input_channels;
     unsigned char *input_image = stbi_load(path.c_str(), &input_width, &input_height, &input_channels, 0);
