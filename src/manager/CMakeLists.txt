@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.25)
 
 project(manager)
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp
+        src/protocol/protocol.cpp
+        src/protocol/protocol.h)
 cmake_policy(SET CMP0135 NEW)
 
 include(FetchContent)
