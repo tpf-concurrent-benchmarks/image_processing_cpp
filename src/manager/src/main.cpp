@@ -3,6 +3,7 @@
 #include "protocol/protocol.h"
 #include <filesystem>
 #include <iostream>
+#include <csignal>
 
 int main()
 {
@@ -18,6 +19,9 @@ int main()
         std::cerr << "No imagesFiles found in directory " << imagesDirectory << std::endl;
         exit(-1);
     }
+
+    // For sync purposes
+    sleep(10);
 
     for (const auto &image : imagesFiles)
     {
