@@ -68,14 +68,13 @@ run_size_worker_local:
 
 format:
 	clang-format -i src/manager/src/**/*.cpp src/manager/src/**/*.h
-	clang-format -i src/manager/format_worker/**/*.cpp src/format_worker/src/**/*.h
-	clang-format -i src/manager/resolution_worker/**/*.cpp src/resolution_worker/src/**/*.h
-	clang-format -i src/manager/size_worker/**/*.cpp src/size_worker/src/**/*.h
+	clang-format -i src/format_worker/src/**/*.cpp src/format_worker/src/**/*.h
+	clang-format -i src/resolution_worker/src/**/*.cpp src/resolution_worker/src/**/*.h
+	clang-format -i src/size_worker/src/**/*.cpp src/size_worker/src/**/*.h
 	clang-format -i src/manager/src/main.cpp
 	clang-format -i src/size_worker/src/main.cpp
 	clang-format -i src/format_worker/src/main.cpp
 	clang-format -i src/resolution_worker/src/main.cpp
-	#clang-format -i src/shared/*.h
 
 
 down_graphite:
