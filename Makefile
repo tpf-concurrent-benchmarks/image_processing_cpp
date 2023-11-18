@@ -32,10 +32,10 @@ remove:
 full_build_manager_local:
 	cd src/manager/ && mkdir -p cmake-build-debug && cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release ..  && cmake --build .
 
-build_master_local:
+build_manager_local:
 	cd src/manager/cmake-build-debug && cmake --build .
 
-run_master_local:
+run_manager_local:
 	cd src/manager/cmake-build-debug && ENV=LOCAL N_WORKERS=${N_WORKERS} ./${EXEC_MANAGER}
 
 full_build_workers_local:
