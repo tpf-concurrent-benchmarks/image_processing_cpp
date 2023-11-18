@@ -26,12 +26,12 @@ std::string getPushPort()
 
 std::string getPullPort()
 {
-    const char *pushPort = "5558";
-    char *pushPortFromEnv = getenv("PUSH_PORT");
-    if (pushPortFromEnv != nullptr)
+    const char *pullPort = "5558";
+    char *pullPortFromEnv = getenv("PULL_PORT");
+    if (pullPortFromEnv != nullptr)
     {
 
-        pushPort = pushPortFromEnv;
+        pullPort = pullPortFromEnv;
     }
-    return pushPort;
+    return pullPort;
 }
