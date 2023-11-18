@@ -1,6 +1,7 @@
-#include <iostream>
 #include "protocol/protocol.h"
+#include <iostream>
 
-int main() {
+int main()
+{
     return 0;
 }

@@ -48,4 +48,3 @@ void Protocol::close()
     receiver_.close();
     context_.close();
 }
-
