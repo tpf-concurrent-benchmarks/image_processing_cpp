@@ -1,20 +1,10 @@
 #include "protocol.h"
 
-Protocol::Protocol(const std::string &pullPort)
+Protocol::Protocol(const std::string &brokerHost, const std::string &pullPort)
 {
     context_ = zmq::context_t(2);
     receiver_ = zmq::socket_t(context_, ZMQ_PULL);
-    receiver_.connect("tcp://*:" + pullPort);
-}
-
-zmq::message_t Protocol::createZmqMessage(const json &message) const
-{
-    std::string messageAsString = message.dump();
-    size_t messageSize = messageAsString.size();
-
-    zmq::message_t zmqMessage(messageSize);
-    memcpy(zmqMessage.data(), messageAsString.c_str(), messageSize);
-    return zmqMessage;
+    receiver_.connect("tcp://" + brokerHost + ":" + pullPort);
 }
 
 std::string Protocol::receive()
