@@ -1,6 +1,6 @@
 #include <iostream>
+#include "protocol/protocol.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
     return 0;
 }

@@ -48,6 +48,15 @@ build_workers_local:
 	cd src/resolution_worker/cmake-build-debug && cmake --build .
 	cd src/size_worker/cmake-build-debug && cmake --build .
 
+build_resolution_local:
+	cd src/resolution_worker/cmake-build-debug && cmake --build .
+
+build_format_local:
+	cd src/format_worker/cmake-build-debug && cmake --build .
+
+build_size_local:
+	cd src/size_worker/cmake-build-debug && cmake --build .
+
 run_format_worker_local:
 	cd src/format_worker/cmake-build-debug && ENV=LOCAL ./$(EXEC_FORMAT_WORKER)
 

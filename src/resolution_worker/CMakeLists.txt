@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.25)
 
 project(resolution-worker)
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp
+        src/protocol/protocol.cpp
+        src/protocol/protocol.h)
 cmake_policy(SET CMP0135 NEW)
 
 include(FetchContent)
@@ -23,7 +25,7 @@ add_subdirectory(../shared shared)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(${PROJECT_NAME} PRIVATE cppzmq)
-target_link_libraries(${PROJECT_NAME}  PUBLIC shared)
+target_link_libraries(${PROJECT_NAME} PUBLIC shared)
 target_link_libraries(${PROJECT_NAME} PRIVATE cpp-statsd-client)
 
 set(DOWNLOAD_EXTRACT_TIMESTAMP True)

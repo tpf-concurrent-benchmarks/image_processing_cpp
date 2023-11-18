@@ -1,7 +1,7 @@
 #include <iostream>
 #include <image_manipulation/change_resolution.cpp>
+#include "protocol/protocol.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
     return 0;
 }
