@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.25)
 project(manager)
 add_executable(${PROJECT_NAME} src/main.cpp
         src/protocol/protocol.cpp
-        src/protocol/protocol.h)
+        src/protocol/protocol.h
+        src/config_reader/config_reader.h
+        src/config_reader/config_reader.cpp)
 cmake_policy(SET CMP0135 NEW)
 
 include(FetchContent)
