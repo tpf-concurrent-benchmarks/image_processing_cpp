@@ -1,8 +1,8 @@
-#include "protocol/protocol.h"
-#include "config_reader/config_reader.h"
 #include "../../shared/constants.h"
-#include <iostream>
+#include "config_reader/config_reader.h"
+#include "protocol/protocol.h"
 #include <filesystem>
+#include <iostream>
 
 int main()
 {
