@@ -11,5 +11,6 @@ std::vector<std::pair<std::string, std::string>> getImagesInDirectory(const fs::
 std::string getGraphiteHost();
 uint16_t getGraphitePort();
 std::string getPushPort();
+int getNWorkers();
 
 #endif // CONFIG_READER_H

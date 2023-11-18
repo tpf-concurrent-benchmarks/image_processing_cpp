@@ -27,6 +27,17 @@ std::vector<std::pair<std::string, std::string>> getImagesInDirectory(const fs::
     return imageFiles;
 }
 
+int getNWorkers()
+{
+    int nWorkers = 1;
+    char *nWorkersFromEnv = getenv("N_WORKERS");
+    if (nWorkersFromEnv != nullptr)
+    {
+        nWorkers = atoi(nWorkersFromEnv);
+    }
+    return nWorkers;
+}
+
 std::string getPushPort()
 {
     const char *pushPort = "5557";

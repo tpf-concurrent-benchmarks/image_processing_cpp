@@ -1,5 +1,6 @@
 #include "protocol/protocol.h"
 #include "config_reader/config_reader.h"
+#include "../../shared/constants.h"
 #include <iostream>
 #include <filesystem>
 
@@ -7,6 +8,7 @@ int main()
 {
 
     Protocol protocol(getPushPort());
+    int nWorkers = getNWorkers();
 
     fs::path imagesDirectory = "./shared/input";
     const std::vector<std::pair<std::string, std::string>> &imagesFiles = getImagesInDirectory(imagesDirectory);
@@ -22,6 +24,11 @@ int main()
         // This path is the shared directory between all services
         const std::string &imagePath = imagesDirectory.string() + image.first + image.second;
         protocol.send(imagePath);
+    }
+
+    for (int i = 0; i < nWorkers; ++i)
+    {
+        protocol.send(Constants::STOP_MESSAGE);
     }
 
     return 0;
