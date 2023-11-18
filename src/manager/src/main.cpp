@@ -31,5 +31,7 @@ int main()
         protocol.send(Constants::STOP_MESSAGE);
     }
 
+    protocol.close();
+
     return 0;
 }

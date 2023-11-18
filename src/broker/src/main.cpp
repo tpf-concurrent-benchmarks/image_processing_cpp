@@ -18,4 +18,6 @@ int main()
         }
         protocol.send(message);
     }
+
+    protocol.close();
 }

@@ -11,7 +11,8 @@ using json = nlohmann::json;
 class Protocol
 {
   public:
-    Protocol(const std::string &host, const std::string &pushPort, const std::string &pullPort);
+    Protocol(const std::string &managerHost, const std::string &brokerHost, const std::string &pushPort,
+             const std::string &pullPort);
     void send(const std::string &message);
     std::string receive();
     void close();
