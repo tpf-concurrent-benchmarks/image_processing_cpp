@@ -2,6 +2,7 @@ EXEC_MANAGER = manager
 EXEC_SIZE_WORKER = size-worker
 EXEC_RESOLUTION_WORKER = resolution-worker
 EXEC_FORMAT_WORKER = format-worker
+EXEC_BROKER = broker
 
 init:
 	docker swarm init
@@ -11,10 +12,12 @@ build:
 	docker rmi image_processing_cpp_format_worker -f
 	docker rmi image_processing_cpp_resolution_worker -f
 	docker rmi image_processing_cpp_manager -f
+	docker rmi image_processing_broker -f
 	docker build -t image_processing_cpp_resolution_worker ./src/ -f ./src/resolution_worker/Dockerfile
 	docker build -t image_processing_cpp_format_worker ./src/ -f ./src/format_worker/Dockerfile
 	docker build -t image_processing_cpp_size_worker ./src/ -f ./src/size_worker/Dockerfile
 	docker build -t image_processing_cpp_manager ./src/ -f ./src/manager/Dockerfile
+	docker build -t image_processing_cpp_broker ./src/ -f ./src/broker/Dockerfile
 
 setup: init build
 
@@ -42,6 +45,7 @@ full_build_workers_local:
 	cd src/format_worker/ && mkdir -p cmake-build-debug && cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
 	cd src/resolution_worker/ && mkdir -p cmake-build-debug && cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
 	cd src/size_worker/ && mkdir -p cmake-build-debug && cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
+	cd src/broker/ && mkdir -p cmake-build-debug && cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
 
 build_workers_local:
 	cd src/format_worker/cmake-build-debug && cmake --build .
@@ -57,6 +61,9 @@ build_format_local:
 build_size_local:
 	cd src/size_worker/cmake-build-debug && cmake --build .
 
+build_broker_local:
+	cd src/broker/cmake-build-debug && cmake --build .
+
 run_format_worker_local:
 	cd src/format_worker/cmake-build-debug && ENV=LOCAL ./$(EXEC_FORMAT_WORKER)
 
@@ -66,15 +73,21 @@ run_resolution_worker_local:
 run_size_worker_local:
 	cd src/size_worker/cmake-build-debug && ENV=LOCAL ./$(EXEC_SIZE_WORKER)
 
+run_broker_local:
+	cd src/broker/cmake-build-debug && ENV=LOCAL ./$(EXEC_BROKER)
+
+
 format:
 	clang-format -i src/manager/src/**/*.cpp src/manager/src/**/*.h
 	clang-format -i src/format_worker/src/**/*.cpp src/format_worker/src/**/*.h
 	clang-format -i src/resolution_worker/src/**/*.cpp src/resolution_worker/src/**/*.h
 	clang-format -i src/size_worker/src/**/*.cpp src/size_worker/src/**/*.h
+	clang-format -i src/broker/src/**/*.cpp src/broker/src/**/*.h
 	clang-format -i src/manager/src/main.cpp
 	clang-format -i src/size_worker/src/main.cpp
 	clang-format -i src/format_worker/src/main.cpp
 	clang-format -i src/resolution_worker/src/main.cpp
+	clang-format -i src/broker/src/main.cpp
 
 
 down_graphite:
