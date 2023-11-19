@@ -1,9 +1,9 @@
-#include "constants.h"
 #include "config_reader/config_reader.h"
+#include "constants.h"
 #include "protocol/protocol.h"
+#include <csignal>
 #include <filesystem>
 #include <iostream>
-#include <csignal>
 
 int main()
 {

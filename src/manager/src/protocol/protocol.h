@@ -15,7 +15,6 @@ class Protocol
   private:
     zmq::context_t context_;
     zmq::socket_t sender_;
-
 };
 
 #endif // PROTOCOL_H

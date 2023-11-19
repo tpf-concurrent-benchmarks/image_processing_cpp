@@ -1,11 +1,12 @@
 FROM gcc:latest
 
 RUN apt-get update; \
-    apt-get install -y cmake
+    apt-get install -y cmake; \
+    apt-get install -y libzmq3-dev
 
 WORKDIR /app
 
-COPY ./format_worker/CMakeLists.txt /app/format_worker/CMakeLists.txt
+COPY ./format_worker/CMakeLists-docker.txt /app/format_worker/CMakeLists.txt
 COPY ./shared /app/shared
 COPY ./format_worker/src /app/format_worker/src
 

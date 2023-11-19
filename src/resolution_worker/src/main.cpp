@@ -25,8 +25,8 @@ int main()
         else
         {
             std::string imageName = message.substr(message.find_last_of('/') + 1);
-            change_resolution(message, 100, 100, "./shared/resized/" + imageName);
-            protocol.send("./shared/resized/" + imageName);
+            change_resolution(message, 100, 100, "../../shared_vol/resized/" + imageName);
+            protocol.send("../../shared_vol/resized/" + imageName);
         }
     }
 

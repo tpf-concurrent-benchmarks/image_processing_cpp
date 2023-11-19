@@ -20,6 +20,7 @@ FetchContent_Declare(Statsd URL https://github.com/vthiery/cpp-statsd-client/arc
 
 set(ZMQ_BUILD_TESTS OFF)
 set(CPPZMQ_BUILD_TESTS OFF)
+set(ENABLE_TESTS OFF)
 
 FetchContent_MakeAvailable(libzmq)
 FetchContent_MakeAvailable(cppzmq)

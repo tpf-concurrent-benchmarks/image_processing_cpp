@@ -6,7 +6,11 @@ add_executable(${PROJECT_NAME} src/main.cpp
         src/protocol/protocol.h
         src/config_reader/config_reader.cpp
         src/config_reader/config_reader.h)
+
 cmake_policy(SET CMP0135 NEW)
+set(DOWNLOAD_EXTRACT_TIMESTAMP True)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include(FetchContent)
 
@@ -21,8 +25,3 @@ FetchContent_MakeAvailable(cppzmq)
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE cppzmq)
-
-set(DOWNLOAD_EXTRACT_TIMESTAMP True)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-

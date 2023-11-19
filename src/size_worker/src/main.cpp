@@ -23,7 +23,8 @@ int main()
         {
             std::string imageName = message.substr(message.find_last_of('/') + 1);
             // TODO: what are x and y in this function?
-            // crop(message, "./shared/cropped/" + imageName, 100, 100);
+            // crop(message, "../../shared_vol/cropped/" + imageName, 100, 100);
+            std::cout << "Cropped image: " << imageName << std::endl;
         }
     }
 

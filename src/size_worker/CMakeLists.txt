@@ -6,7 +6,11 @@ add_executable(${PROJECT_NAME} src/main.cpp
         src/protocol/protocol.h
         src/config_reader/config_reader.cpp
         src/config_reader/config_reader.h)
+
 cmake_policy(SET CMP0135 NEW)
+set(DOWNLOAD_EXTRACT_TIMESTAMP True)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include(FetchContent)
 
@@ -16,6 +20,7 @@ FetchContent_Declare(Statsd URL https://github.com/vthiery/cpp-statsd-client/arc
 
 set(ZMQ_BUILD_TESTS OFF)
 set(CPPZMQ_BUILD_TESTS OFF)
+set(ENABLE_TESTS OFF)
 
 FetchContent_MakeAvailable(libzmq)
 FetchContent_MakeAvailable(cppzmq)
@@ -27,7 +32,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE cppzmq)
 target_link_libraries(${PROJECT_NAME} PUBLIC shared)
 target_link_libraries(${PROJECT_NAME} PRIVATE cpp-statsd-client)
 
-set(DOWNLOAD_EXTRACT_TIMESTAMP True)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 
