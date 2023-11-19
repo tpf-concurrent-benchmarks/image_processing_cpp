@@ -31,6 +31,10 @@ deploy:
 
 deploy_remote:
 	mkdir -p graphite
+	mkdir -p shared_vol
+	mkdir -p shared_vol/resized
+	mkdir -p shared_vol/formatted
+	mkdir -p shared_vol/cropped
 	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml image_processing_cpp
 
 remove:
