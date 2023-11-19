@@ -21,7 +21,7 @@ int main()
     }
 
     // For sync purposes
-    sleep(10);
+    sleep(20);
 
     for (const auto &image : imagesFiles)
     {

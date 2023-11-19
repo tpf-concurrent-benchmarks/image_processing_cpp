@@ -52,7 +52,7 @@ services:
         source: ./shared_vol
         target: /app/shared_vol
     deploy:
-      replicas: 4 # This number should be equal to N_WORKERS in both brokers
+      replicas: ${N_WORKERS}
       restart_policy:
         condition: none
     environment:
@@ -74,7 +74,7 @@ services:
         source: ./shared_vol
         target: /app/shared_vol
     deploy:
-      replicas: 4 # This number should be equal to N_WORKERS in both brokers
+      replicas: ${N_WORKERS}
       restart_policy:
         condition: none
     environment:
@@ -96,7 +96,7 @@ services:
         source: ./shared_vol
         target: /app/shared_vol
     deploy:
-      replicas: 4 # This number should be equal to N_WORKERS in both brokers
+      replicas: ${N_WORKERS}
       restart_policy:
         condition: none
     environment:
@@ -117,7 +117,7 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
-      - N_WORKERS=4 # This number should be equal to "replicas" in several services
+      - N_WORKERS=${N_WORKERS}
 
   broker_resolution_to_size:
     build:
@@ -134,7 +134,7 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
-      - N_WORKERS=4 # This number should be equal to "replicas" in several services
+      - N_WORKERS=${N_WORKERS}
 
   manager:
     build:
@@ -153,7 +153,7 @@ services:
     stdin_open: true
     environment:
       - LOCAL=${LOCAL}
-      - N_WORKERS=4 # This number should be equal to "replicas" in several services
+      - N_WORKERS=${N_WORKERS}
 
 volumes:
   grafana_config:

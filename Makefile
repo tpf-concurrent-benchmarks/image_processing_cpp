@@ -3,6 +3,7 @@ EXEC_SIZE_WORKER = size-worker
 EXEC_RESOLUTION_WORKER = resolution-worker
 EXEC_FORMAT_WORKER = format-worker
 EXEC_BROKER = broker
+N_WORKERS = 4
 
 init:
 	docker swarm init
@@ -28,7 +29,7 @@ deploy:
 	mkdir -p shared_vol/resized
 	mkdir -p shared_vol/formatted
 	mkdir -p shared_vol/cropped
-	docker compose -f=docker-compose-deploy-local.yml up
+	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local.yml up
 
 deploy_remote:
 	mkdir -p graphite
