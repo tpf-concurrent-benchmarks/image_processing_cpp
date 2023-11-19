@@ -1,12 +1,9 @@
 #ifndef FORMAT_WORKER_PROTOCOL_H
 #define FORMAT_WORKER_PROTOCOL_H
 
-#include "nlohmann/json.hpp"
 #include "zmq.hpp"
 #include <iostream>
 #include <string>
-
-using json = nlohmann::json;
 
 class Protocol
 {
@@ -21,8 +18,6 @@ class Protocol
     zmq::context_t context_;
     zmq::socket_t sender_;
     zmq::socket_t receiver_;
-
-    [[nodiscard]] zmq::message_t createZmqMessage(const json &message) const;
 };
 
 #endif // FORMAT_WORKER_PROTOCOL_H
