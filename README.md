@@ -33,12 +33,6 @@ docker compose -f=docker-compose-deploy-local.yml up
 docker compose -f=docker-compose-graphite.yaml up
 ```
 
-## Compile only with Docker
-
-```bash
-docker compose up
-```
-
 ## About ports on worker and manager
 
 The default ZMQ ports for the manager are 5557 (PUSH) and 5558 (PULL). The ports in the worker must be the same as the ones in the mananager but interchanged.
