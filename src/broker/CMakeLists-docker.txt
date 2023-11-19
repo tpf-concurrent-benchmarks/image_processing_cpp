@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.25)
+project(broker)
+
+add_executable(${PROJECT_NAME} src/main.cpp
+        src/protocol/protocol.cpp
+        src/protocol/protocol.h
+        src/config_reader/config_reader.cpp
+        src/config_reader/config_reader.h)
+
+cmake_policy(SET CMP0135 NEW)
+set(DOWNLOAD_EXTRACT_TIMESTAMP True)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+find_package(cppzmq)
+
+set(ZMQ_BUILD_TESTS OFF)
+set(CPPZMQ_BUILD_TESTS OFF)
+
+
+target_link_libraries(${PROJECT_NAME} PRIVATE cppzmq)
