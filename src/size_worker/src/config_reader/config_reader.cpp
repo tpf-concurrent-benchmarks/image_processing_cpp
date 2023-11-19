@@ -1,5 +1,33 @@
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <json.hpp>
 #include <string>
+
+std::ifstream readFile(const std::string &path)
+{
+    std::ifstream file(path);
+    if (!file)
+    {
+        std::cerr << "Error: Could not open the file: " << path << std::endl;
+        exit(1);
+    }
+    return file;
+}
+
+nlohmann::json configFileToJson(std::ifstream &configFile)
+{
+    nlohmann::json configData;
+    configFile >> configData;
+    return configData;
+}
+
+nlohmann::json getDataFromJsonFile(const char *dataPath)
+{
+    std::ifstream dataFile = readFile(dataPath);
+    nlohmann::json data = configFileToJson(dataFile);
+    return data;
+}
 
 std::string getBrokerFromSizeHost()
 {

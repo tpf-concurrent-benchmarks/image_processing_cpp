@@ -3,7 +3,7 @@
 #include <json.hpp>
 #include <string>
 
-std::ifstream readFile(const std::string& path)
+std::ifstream readFile(const std::string &path)
 {
     std::ifstream file(path);
     if (!file)
