@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-std::vector<std::pair<std::string, std::string>> getImagesInDirectory(const fs::path &directory)
+std::vector<fs::path> getImagesInDirectory(const fs::path &directory)
 {
 
     if (!fs::exists(directory) || !fs::is_directory(directory))
@@ -11,7 +11,7 @@ std::vector<std::pair<std::string, std::string>> getImagesInDirectory(const fs::
         return {};
     }
 
-    std::vector<std::pair<std::string, std::string>> imageFiles;
+    std::vector<fs::path> imageFiles;
 
     for (const auto &entry : fs::directory_iterator(directory))
     {
@@ -23,7 +23,7 @@ std::vector<std::pair<std::string, std::string>> getImagesInDirectory(const fs::
 
             if (extension == ".jpg" || extension == ".png" || extension == ".gif")
             {
-                imageFiles.emplace_back(entry.path().stem().string(), extension);
+                imageFiles.emplace_back(entry.path());
             }
         }
     }

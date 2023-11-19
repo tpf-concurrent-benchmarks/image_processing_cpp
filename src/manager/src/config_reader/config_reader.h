@@ -7,7 +7,7 @@
 
 namespace fs = std::filesystem;
 
-std::vector<std::pair<std::string, std::string>> getImagesInDirectory(const fs::path &directory);
+std::vector<fs::path> getImagesInDirectory(const fs::path &directory);
 std::string getGraphiteHost();
 uint16_t getGraphitePort();
 std::string getPushPort();

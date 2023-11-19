@@ -12,7 +12,7 @@ int main()
     int nWorkers = getNWorkers();
 
     fs::path imagesDirectory = "../../shared_vol/input/";
-    const std::vector<std::pair<std::string, std::string>> &imagesFiles = getImagesInDirectory(imagesDirectory);
+    const std::vector<fs::path> &imagesFiles = getImagesInDirectory(imagesDirectory);
 
     if (imagesFiles.empty())
     {
@@ -25,8 +25,7 @@ int main()
 
     for (const auto &image : imagesFiles)
     {
-        const std::string &imagePath = imagesDirectory.string() + image.first + image.second;
-        protocol.send(imagePath);
+        protocol.send(image.string());
     }
 
     for (int i = 0; i < nWorkers; ++i)
