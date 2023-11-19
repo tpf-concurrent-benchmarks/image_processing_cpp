@@ -45,6 +45,8 @@ services:
     depends_on:
       - graphite
       - manager
+      - broker_format_to_resolution
+      - broker_resolution_to_size
     volumes:
       - type: bind
         source: ./shared_vol
@@ -65,6 +67,8 @@ services:
     depends_on:
       - graphite
       - manager
+      - broker_format_to_resolution
+      - broker_resolution_to_size
     volumes:
       - type: bind
         source: ./shared_vol
@@ -85,6 +89,8 @@ services:
     depends_on:
       - graphite
       - manager
+      - broker_format_to_resolution
+      - broker_resolution_to_size
     volumes:
       - type: bind
         source: ./shared_vol
