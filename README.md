@@ -40,14 +40,7 @@ For instance, if the manager is using 5557 (PUSH) and 5558 (PULL), the worker mu
 
 ## Number of replicas
 
-**Local replicas**
-
-If you wish to change the number of replicas, you can do so by changing the `N_WORKERS` environment variable (manager service) in the `docker-compose-deploy-local.yml` file.
-Also, you must set with the same value `deploy.replicas` in `broker_format_to_resolution` and in `broker_resolution_to_size` service in the same file.
-
-**Docker swarm replicas**
-
-If you wish to change the number of replicas, you can do so by changing the `N_WORKERS` constants in the `Makefile` file.
+If you wish to change the number of replicas, you can do so by changing the `N_WORKERS` constant in the `Makefile` file.
 
 ## Makefile
 
