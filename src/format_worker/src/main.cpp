@@ -24,9 +24,10 @@ int main()
         }
         else
         {
-            change_format(message, "../../shared_vol/formatted/");
             std::string imageName = message.substr(message.find_last_of('/') + 1);
-            protocol.send("../../shared_vol/formatted/" + imageName);
+            std::string newImageName = imageName.substr(0, imageName.find_last_of('.')) + ".png";
+            change_format(message, "../../shared_vol/formatted/" + newImageName);
+            protocol.send("../../shared_vol/formatted/" + newImageName);
         }
     }
 
