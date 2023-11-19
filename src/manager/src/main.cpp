@@ -11,7 +11,7 @@ int main()
     Protocol protocol(getPushPort());
     int nWorkers = getNWorkers();
 
-    fs::path imagesDirectory = "../../shared_vol/input";
+    fs::path imagesDirectory = "../../shared_vol/input/";
     const std::vector<std::pair<std::string, std::string>> &imagesFiles = getImagesInDirectory(imagesDirectory);
 
     if (imagesFiles.empty())
@@ -25,7 +25,6 @@ int main()
 
     for (const auto &image : imagesFiles)
     {
-        // This path is the shared directory between all services
         const std::string &imagePath = imagesDirectory.string() + image.first + image.second;
         protocol.send(imagePath);
     }
