@@ -80,4 +80,4 @@ For example, if you want to run the manager, you can do:
 
 - [libzmq](https://github.com/zeromq/libzmq): ZeroMQ core engine in C++
 - [cpp-statsd-client](https://github.com/vthiery/cpp-statsd-client): Statsd client implementation for C++
-- [CImg](https://github.com/GreycLab/CImg): C++ template image processing library
+- [stb](https://github.com/nothings/stb): Single-file public domain (or MIT licensed) libraries for C/C++
