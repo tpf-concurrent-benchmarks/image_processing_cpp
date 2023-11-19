@@ -23,6 +23,10 @@ setup: init build
 
 deploy:
 	mkdir -p graphite
+	mkdir -p shared_vol
+	mkdir -p shared_vol/resized
+	mkdir -p shared_vol/formatted
+	mkdir -p shared_vol/cropped
 	docker compose -f=docker-compose-deploy-local.yml up
 
 deploy_remote:
