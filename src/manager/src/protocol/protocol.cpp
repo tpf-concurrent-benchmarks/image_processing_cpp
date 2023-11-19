@@ -19,16 +19,6 @@ void Protocol::send(const std::string &message)
     }
 }
 
-zmq::message_t Protocol::createZmqMessage(const json &message) const
-{
-    std::string messageAsString = message.dump();
-    size_t messageSize = messageAsString.size();
-
-    zmq::message_t zmqMessage(messageSize);
-    memcpy(zmqMessage.data(), messageAsString.c_str(), messageSize);
-    return zmqMessage;
-}
-
 void Protocol::close()
 {
     sender_.close();

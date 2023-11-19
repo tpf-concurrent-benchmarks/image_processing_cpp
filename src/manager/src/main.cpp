@@ -1,4 +1,4 @@
-#include "../../shared/constants.h"
+#include "constants.h"
 #include "config_reader/config_reader.h"
 #include "protocol/protocol.h"
 #include <filesystem>
@@ -11,7 +11,7 @@ int main()
     Protocol protocol(getPushPort());
     int nWorkers = getNWorkers();
 
-    fs::path imagesDirectory = "./shared/input";
+    fs::path imagesDirectory = "../../shared_vol/input";
     const std::vector<std::pair<std::string, std::string>> &imagesFiles = getImagesInDirectory(imagesDirectory);
 
     if (imagesFiles.empty())
