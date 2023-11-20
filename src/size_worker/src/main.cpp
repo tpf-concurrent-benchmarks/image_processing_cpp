@@ -2,11 +2,14 @@
 #include "protocol/protocol.h"
 #include <constants.h>
 #include <image_manipulation/crop.cpp>
+#include "cpp-statsd-client/StatsdClient.hpp"
+#include <chrono>
 
 int main()
 {
     std::string brokerHost = getBrokerFromSizeHost();
     std::string pullPort = getPullPort();
+    Statsd::StatsdClient statsdClient{getGraphiteHost(), getGraphitePort(), getNodeId()};
 
     Protocol protocol(brokerHost, pullPort);
 
@@ -22,9 +25,19 @@ int main()
         else
         {
             std::string imageName = message.substr(message.find_last_of('/') + 1);
-            // TODO: what are x and y in this function?
-            // crop(message, "../../shared_vol/cropped/" + imageName, 100, 100);
-            std::cout << "Cropped image: " << imageName << std::endl;
+
+            std::chrono::milliseconds start_time_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+
+            crop_centered(message, "../../shared_vol/cropped/" + imageName, 100, 100);
+
+            std::chrono::milliseconds end_time_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+            std::chrono::milliseconds completion_time = end_time_ms - start_time_ms;
+            statsdClient.timing("work_time", completion_time.count(), 1);
+            statsdClient.increment("results_produced");
+            
+            // std::cout << "Cropped image: " << imageName << std::endl;
         }
     }
 

@@ -2,6 +2,8 @@
 #include "protocol/protocol.h"
 #include <constants.h>
 #include <image_manipulation/change_resolution.cpp>
+#include "cpp-statsd-client/StatsdClient.hpp"
+#include <chrono>
 
 int main()
 {
@@ -9,6 +11,8 @@ int main()
     std::string brokerFromFormatHost = getBrokerFromFormatHost();
     std::string pushPort = getPushPort();
     std::string pullPort = getPullPort();
+
+    Statsd::StatsdClient statsdClient{getGraphiteHost(), getGraphitePort(), getNodeId()};
 
     Protocol protocol(brokerFromFormatHost, brokerFromSizeHost, pushPort, pullPort);
 
@@ -25,7 +29,18 @@ int main()
         else
         {
             std::string imageName = message.substr(message.find_last_of('/') + 1);
+
+            std::chrono::milliseconds start_time_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+
             change_resolution(message, 100, 100, "../../shared_vol/resized/" + imageName);
+
+            std::chrono::milliseconds end_time_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+            std::chrono::milliseconds completion_time = end_time_ms - start_time_ms;
+            statsdClient.timing("work_time", completion_time.count(), 1);
+            statsdClient.increment("results_produced");
+
             protocol.send("../../shared_vol/resized/" + imageName);
         }
     }
