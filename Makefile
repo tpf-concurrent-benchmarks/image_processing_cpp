@@ -22,23 +22,19 @@ build:
 
 setup: init build
 
-deploy:
-	mkdir -p graphite
-	mkdir -p shared_vol
-	mkdir -p shared_vol/input
-	mkdir -p shared_vol/resized
-	mkdir -p shared_vol/formatted
-	mkdir -p shared_vol/cropped
+deploy: create_directories
 	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local.yml up
 
-deploy_remote:
+deploy_remote: create_directories
+	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml image_processing_cpp
+
+create_directories:
 	mkdir -p graphite
 	mkdir -p shared_vol
 	mkdir -p shared_vol/input
 	mkdir -p shared_vol/resized
 	mkdir -p shared_vol/formatted
 	mkdir -p shared_vol/cropped
-	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml image_processing_cpp
 
 remove:
 	docker stack rm image_processing_cpp
