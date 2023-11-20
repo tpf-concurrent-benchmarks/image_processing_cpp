@@ -7,6 +7,7 @@
 
 int main()
 {
+    nlohmann::json resolutionConfig = getDataFromJsonFile("../resources/config.json");
     std::string brokerFromSizeHost = getBrokerFromSizeHost();
     std::string brokerFromFormatHost = getBrokerFromFormatHost();
     std::string pushPort = getPushPort();
@@ -33,7 +34,8 @@ int main()
             std::chrono::milliseconds start_time_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
-            change_resolution(message, 100, 100, "../../shared_vol/resized/" + imageName);
+            change_resolution(message, resolutionConfig["targetWidth"], resolutionConfig["targetHeight"],
+                "../../shared_vol/resized/" + imageName);
 
             std::chrono::milliseconds end_time_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());

@@ -6,6 +6,7 @@ RUN apt-get update; \
 
 WORKDIR /app
 
+COPY ./size_worker/resources /app/size_worker/resources
 COPY ./size_worker/CMakeLists-docker.txt /app/size_worker/CMakeLists.txt
 COPY ./shared /app/shared
 COPY ./size_worker/src /app/size_worker/src

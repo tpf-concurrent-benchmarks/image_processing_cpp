@@ -7,6 +7,7 @@ RUN apt-get update; \
 WORKDIR /app
 
 COPY ./resolution_worker/CMakeLists-docker.txt /app/resolution_worker/CMakeLists.txt
+COPY ./resolution_worker/resources /app/resolution_worker/resources
 COPY ./shared /app/shared
 COPY ./resolution_worker/src /app/resolution_worker/src
 

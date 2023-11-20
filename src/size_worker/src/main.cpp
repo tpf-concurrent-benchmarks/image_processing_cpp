@@ -10,6 +10,8 @@ int main()
     std::string brokerHost = getBrokerFromSizeHost();
     std::string pullPort = getPullPort();
     Statsd::StatsdClient statsdClient{getGraphiteHost(), getGraphitePort(), getNodeId()};
+    // Desired size is here
+    nlohmann::json sizeConfig = getDataFromJsonFile("../resources/config.json");
 
     Protocol protocol(brokerHost, pullPort);
 
