@@ -35,5 +35,6 @@ std::string Protocol::receive()
 void Protocol::close()
 {
     sender_.close();
+    receiver_.close();
     context_.close();
 }
