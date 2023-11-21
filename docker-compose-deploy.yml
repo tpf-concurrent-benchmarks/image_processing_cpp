@@ -128,7 +128,7 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
-      - N_WORKERS=4 # This number should be equal to "replicas" in several services
+      - N_WORKERS=${N_WORKERS}
 
   broker_resolution_to_size:
     image: image_processing_cpp_broker
@@ -143,7 +143,7 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
-      - N_WORKERS=4 # This number should be equal to "replicas" in several services
+      - N_WORKERS=${N_WORKERS}
 
   manager:
     image: image_processing_cpp_manager

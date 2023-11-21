@@ -174,4 +174,4 @@ services:
 
 volumes:
   grafana_config:
-    external: true
+    driver: local
