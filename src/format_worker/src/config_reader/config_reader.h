@@ -1,5 +1,5 @@
-#include <string>
 #include <cstdint>
+#include <string>
 
 std::string getManagerHost();
 std::string getBrokerHost();

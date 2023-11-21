@@ -1,6 +1,5 @@
-#include <string>
-#include <string>
 #include <random>
+#include <string>
 
 std::string getManagerHost()
 {

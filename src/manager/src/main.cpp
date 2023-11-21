@@ -1,11 +1,11 @@
 #include "config_reader/config_reader.h"
 #include "constants.h"
+#include "cpp-statsd-client/StatsdClient.hpp"
 #include "protocol/protocol.h"
+#include <chrono>
 #include <csignal>
 #include <filesystem>
 #include <iostream>
-#include "cpp-statsd-client/StatsdClient.hpp"
-#include <chrono>
 
 int main()
 {
@@ -15,8 +15,9 @@ int main()
 
     Statsd::StatsdClient statsdClient{getGraphiteHost(), getGraphitePort(), "manager"};
 
-    Protocol protocol(getPushPort());
+    Protocol protocol(getPushPort(), getPullPort());
     int nWorkers = getNWorkers();
+    int finishedWorkers = 0;
 
     fs::path imagesDirectory = "../../shared_vol/input/";
     const std::vector<fs::path> &imagesFiles = getImagesInDirectory(imagesDirectory);
@@ -38,6 +39,19 @@ int main()
     for (int i = 0; i < nWorkers; ++i)
     {
         protocol.send(Constants::STOP_MESSAGE);
+    }
+
+    while (finishedWorkers < nWorkers)
+    {
+        std::string message = protocol.receive();
+        if (message == Constants::END_WORK_MESSAGE)
+        {
+            finishedWorkers++;
+        }
+        else
+        {
+            std::cout << "Unknown message received" << std::endl;
+        }
     }
 
     protocol.close();

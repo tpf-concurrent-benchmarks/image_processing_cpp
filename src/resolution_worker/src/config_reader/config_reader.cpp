@@ -1,8 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include <json.hpp>
-#include <string>
 #include <random>
+#include <string>
 
 std::ifstream readFile(const std::string &path)
 {

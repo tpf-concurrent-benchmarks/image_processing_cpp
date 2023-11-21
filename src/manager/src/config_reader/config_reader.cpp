@@ -54,6 +54,18 @@ std::string getPushPort()
     return pushPort;
 }
 
+std::string getPullPort()
+{
+    const char *pullPort = "5558";
+    char *pullPortFromEnv = getenv("PULL_PORT");
+    if (pullPortFromEnv != nullptr)
+    {
+
+        pullPort = pullPortFromEnv;
+    }
+    return pullPort;
+}
+
 uint16_t getGraphitePort()
 {
     return 8125;
