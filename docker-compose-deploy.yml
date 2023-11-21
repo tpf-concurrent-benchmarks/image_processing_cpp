@@ -2,9 +2,11 @@ version: "3.7"
 
 services:
   graphite:
-    image: graphiteapp/graphite-statsd:1.1.10-4
+    image: graphiteapp/graphite-statsd:latest
     volumes:
-      - "./statsd.config.js:/opt/statsd/config.js:ro"
+      - "./statsd.config.js:/opt/statsd/config/udp.js:ro"
+      - "./statsd.config.js:/opt/statsd/config/tcp.js:ro"
+      - "./graphite.carbon.conf:/opt/graphite/conf/carbon.conf:ro"
       - "./graphite.storage-schemas.conf:/opt/graphite/conf/storage-schemas.conf:ro"
       - "./graphite:/opt/graphite/storage/:rw"
     ports:
@@ -28,16 +30,28 @@ services:
       - "/dev/disk/:/dev/disk:ro"
 
   grafana:
-    image: grafana/grafana:latest
+    image: efoppiano/grafana:0.1
     ports:
       - "8081:3000"
     volumes:
       - "grafana_config:/var/lib/grafana"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_RENDERING_SERVER_URL=http://renderer:8081/render
+      - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
+      - GF_LOG_FILTERS=rendering:debug
     depends_on:
       - graphite
+
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    ports:
+      - "8082:8081"
 
   format_worker:
     image: image_processing_cpp_format_worker
+    command: bash -c "sleep 10 && cd /app/format_worker/cmake-build-debug && ./format-worker"
     tty: true
     stdin_open: true
     depends_on:
@@ -55,9 +69,11 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
+      - NODE_ID=format.worker_{{.Task.Slot}}
 
   resolution_worker:
     image: image_processing_cpp_resolution_worker
+    command: bash -c "sleep 10 && cd /app/resolution_worker/cmake-build-debug && ./resolution-worker"
     tty: true
     stdin_open: true
     depends_on:
@@ -75,9 +91,11 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
+      - NODE_ID=resolution.worker_{{.Task.Slot}}
 
   size_worker:
     image: image_processing_cpp_size_worker
+    command: bash -c "sleep 10 && cd /app/size_worker/cmake-build-debug && ./size-worker"
     tty: true
     stdin_open: true
     depends_on:
@@ -95,6 +113,7 @@ services:
         condition: none
     environment:
       - LOCAL=${LOCAL}
+      - NODE_ID=size.worker_{{.Task.Slot}}
 
   broker_format_to_resolution:
     image: image_processing_cpp_broker
@@ -141,8 +160,9 @@ services:
     stdin_open: true
     environment:
       - LOCAL=${LOCAL}
+      - NODE_ID=manager
       - N_WORKERS=${N_WORKERS}
 
 volumes:
   grafana_config:
-    driver: local
+    external: true

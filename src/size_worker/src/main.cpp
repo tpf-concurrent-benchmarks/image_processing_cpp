@@ -31,7 +31,7 @@ int main()
             std::chrono::milliseconds start_time_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
-            crop_centered(message, "../../shared_vol/cropped/" + imageName, 100, 100);
+            crop_centered(message, "../../shared_vol/cropped/" + imageName, sizeConfig["targetHeight"], sizeConfig["targetWidth"]);
 
             std::chrono::milliseconds end_time_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());

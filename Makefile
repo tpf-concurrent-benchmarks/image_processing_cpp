@@ -3,7 +3,7 @@ EXEC_SIZE_WORKER = size-worker
 EXEC_RESOLUTION_WORKER = resolution-worker
 EXEC_FORMAT_WORKER = format-worker
 EXEC_BROKER = broker
-N_WORKERS = 4
+N_WORKERS = 2
 
 init:
 	docker swarm init
@@ -26,18 +26,21 @@ deploy: create_directories
 	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local.yml up
 
 deploy_remote: create_directories
-	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml image_processing_cpp
+	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml ip_cpp
 
 create_directories:
 	mkdir -p graphite
 	mkdir -p shared_vol
 	mkdir -p shared_vol/input
 	mkdir -p shared_vol/resized
+	rm -f shared_vol/resized/*
 	mkdir -p shared_vol/formatted
+	rm -f shared_vol/formatted/*
 	mkdir -p shared_vol/cropped
+	rm -f shared_vol/cropped/*
 
 remove:
-	docker stack rm image_processing_cpp
+	docker stack rm ip_cpp
 
 full_build_manager_local:
 	cd src/manager/ && mkdir -p cmake-build-debug && cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release ..  && cmake --build .
