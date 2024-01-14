@@ -107,3 +107,26 @@ down_graphite:
 		docker stack rm cadvisor; \
 	fi
 .PHONY: down_graphite
+
+# Cloud specific
+
+_mount_nfs:
+	mkdir -p shared_vol
+	sudo mount -o rw,intr $(NFS_SERVER_IP):/$(NFS_SERVER_PATH) ./shared_vol
+.PHONY: _mount_nfs
+
+# Requires the following env variables:
+# - NFS_SERVER_IP
+# - NFS_SERVER_PATH
+deploy_cloud: remove
+	NFS_SERVER_IP=$(NFS_SERVER_IP) NFS_SERVER_PATH=$(NFS_SERVER_PATH) make _mount_nfs
+	sudo make create_directories
+	mkdir -p graphite
+	mkdir -p grafana_config
+	until \
+	N_WORKERS=$(N_WORKERS) \
+	NFS_SERVER_IP=$(NFS_SERVER_IP) \
+	NFS_SERVER_PATH=$(NFS_SERVER_PATH) \
+	sudo -E docker stack deploy \
+	-c docker-compose-deploy-cloud.yml ip_cpp; do sleep 1; done
+.PHONY: deploy_cloud
