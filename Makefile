@@ -32,12 +32,12 @@ create_directories:
 	mkdir -p graphite
 	mkdir -p shared_vol
 	mkdir -p shared_vol/input
+	rm -rf shared_vol/resized || true
+	rm -rf shared_vol/formatted || true
+	rm -rf shared_vol/cropped || true
 	mkdir -p shared_vol/resized
-	rm -f shared_vol/resized/*
 	mkdir -p shared_vol/formatted
-	rm -f shared_vol/formatted/*
 	mkdir -p shared_vol/cropped
-	rm -f shared_vol/cropped/*
 
 remove:
 	docker stack rm ip_cpp
