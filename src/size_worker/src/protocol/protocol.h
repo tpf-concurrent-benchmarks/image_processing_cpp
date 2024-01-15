@@ -18,6 +18,7 @@ class Protocol
     zmq::context_t context_;
     zmq::socket_t receiver_;
     zmq::socket_t sender_;
+    zmq::socket_t end_work_;
 };
 
 #endif // SIZE_WORKER_PROTOCOL_H

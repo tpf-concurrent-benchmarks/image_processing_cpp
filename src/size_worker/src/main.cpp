@@ -24,7 +24,6 @@ int main()
         if (message == Constants::STOP_MESSAGE)
         {
             shouldStop = true;
-            protocol.send(Constants::END_WORK_MESSAGE);
         }
         else
         {
@@ -41,6 +40,7 @@ int main()
             std::chrono::milliseconds completion_time = end_time_ms - start_time_ms;
             statsdClient.timing("work_time", completion_time.count(), 1);
             statsdClient.increment("results_produced");
+            protocol.send(Constants::END_WORK_MESSAGE);
         }
     }
 

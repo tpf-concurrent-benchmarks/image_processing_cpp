@@ -25,7 +25,6 @@ int main()
         if (message == Constants::STOP_MESSAGE)
         {
             shouldStop = true;
-            protocol.send(message);
         }
         else
         {

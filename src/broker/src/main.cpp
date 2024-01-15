@@ -6,15 +6,15 @@ int main()
 {
 
     Protocol protocol(getPushPort(), getPullPort());
-    int nWorkers = getNWorkers();
-    int finishedWorkers = 0;
+    bool shouldStop = false;
 
-    while (finishedWorkers < nWorkers)
+    while (!shouldStop)
     {
         std::string message = protocol.receive();
         if (message == Constants::STOP_MESSAGE)
         {
-            finishedWorkers++;
+            shouldStop = true;
+            continue;
         }
         protocol.send(message);
     }

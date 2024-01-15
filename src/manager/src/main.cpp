@@ -16,8 +16,6 @@ int main()
     Statsd::StatsdClient statsdClient{getGraphiteHost(), getGraphitePort(), "manager"};
 
     Protocol protocol(getPushPort(), getPullPort());
-    int nWorkers = getNWorkers();
-    int finishedWorkers = 0;
 
     fs::path imagesDirectory = "../../shared_vol/input/";
     const std::vector<fs::path> &imagesFiles = getImagesInDirectory(imagesDirectory);
@@ -28,31 +26,36 @@ int main()
         exit(-1);
     }
 
+    const size_t jobsToBeDone = imagesFiles.size();
+
+    std::thread t([&protocol, &jobsToBeDone]() {
+        int jobsDone = 0;
+        while (jobsDone < jobsToBeDone)
+        {
+            std::string message = protocol.receive();
+            if (message == Constants::END_WORK_MESSAGE)
+            {
+                jobsDone++;
+            }
+            else
+            {
+                std::cout << "Unknown message received" << std::endl;
+            }
+        }
+    });
+
     // For sync purposes
-    sleep(20);
+    std::this_thread::sleep_for(std::chrono::seconds(20));
 
     for (const auto &image : imagesFiles)
     {
         protocol.send(image.string());
     }
 
-    for (int i = 0; i < nWorkers; ++i)
-    {
-        protocol.send(Constants::STOP_MESSAGE);
-    }
+    t.join();
 
-    while (finishedWorkers < nWorkers)
-    {
-        std::string message = protocol.receive();
-        if (message == Constants::END_WORK_MESSAGE)
-        {
-            finishedWorkers++;
-        }
-        else
-        {
-            std::cout << "Unknown message received" << std::endl;
-        }
-    }
+    protocol.sendStopMessage(Constants::STOP_MESSAGE);
+    std::cout << "Sent stop message to all workers" << std::endl;
 
     protocol.close();
 

@@ -1,28 +1,55 @@
+#include <constants.h>
 #include "protocol.h"
 
 Protocol::Protocol(const std::string &brokerHost, const std::string &managerHost, const std::string &pushPort,
                    const std::string &pullPort)
 {
-    context_ = zmq::context_t(2);
+    context_ = zmq::context_t(3);
     receiver_ = zmq::socket_t(context_, ZMQ_PULL);
     sender_ = zmq::socket_t(context_, ZMQ_PUSH);
+    end_work_ = zmq::socket_t(context_, ZMQ_SUB);
     receiver_.connect("tcp://" + brokerHost + ":" + pullPort);
     sender_.connect("tcp://" + managerHost + ":" + pushPort);
+    end_work_.connect("tcp://" + managerHost + ":" + Constants::END_WORK_PORT);
+    end_work_.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 }
 
 std::string Protocol::receive()
 {
-    zmq::message_t message;
-    const zmq::recv_result_t &anOptional = receiver_.recv(message);
-    if (!anOptional.has_value())
+    zmq::pollitem_t items[] = {
+            {static_cast<void *>(receiver_), 0, ZMQ_POLLIN, 0},
+            {static_cast<void *>(end_work_), 0, ZMQ_POLLIN, 0}};
+    zmq::poll(&items[0], 2, -1);
+
+    if (items[0].revents & ZMQ_POLLIN)
+    {
+        zmq::message_t message;
+        const zmq::recv_result_t &anOptional = receiver_.recv(message);
+        if (!anOptional.has_value())
+        {
+            return "Error message";
+        }
+        return std::string(static_cast<char *>(message.data()), message.size());
+    }
+    else if (items[1].revents & ZMQ_POLLIN)
+    {
+        zmq::message_t message;
+        const zmq::recv_result_t &anOptional = end_work_.recv(message);
+        if (!anOptional.has_value())
+        {
+            return "Error message";
+        }
+        return std::string(static_cast<char *>(message.data()), message.size());
+    }
+    else
     {
         return "Error message";
     }
-    return std::string(static_cast<char *>(message.data()), message.size());
 }
 
 void Protocol::send(const std::string &message)
 {
+
     zmq::message_t zmqMessage(message.size());
     memcpy(zmqMessage.data(), message.c_str(), message.size());
 
@@ -37,5 +64,6 @@ void Protocol::close()
 {
     receiver_.close();
     sender_.close();
+    end_work_.close();
     context_.close();
 }

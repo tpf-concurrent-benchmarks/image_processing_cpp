@@ -1,12 +1,16 @@
 #include "protocol.h"
+#include "../../../shared/constants.h"
 
 Protocol::Protocol(const std::string &pushPort, const std::string &pullPort)
 {
-    context_ = zmq::context_t(2);
+    context_ = zmq::context_t(3);
     sender_ = zmq::socket_t(context_, ZMQ_PUSH);
     receiver_ = zmq::socket_t(context_, ZMQ_PULL);
+    end_work_ = zmq::socket_t(context_, ZMQ_SUB);
     sender_.bind("tcp://*:" + pushPort);
     receiver_.bind("tcp://*:" + pullPort);
+    end_work_.connect("tcp://manager:" + Constants::END_WORK_PORT);
+    end_work_.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 }
 
 void Protocol::send(const std::string &message)
@@ -23,18 +27,42 @@ void Protocol::send(const std::string &message)
 
 std::string Protocol::receive()
 {
-    zmq::message_t message;
-    const zmq::recv_result_t &anOptional = receiver_.recv(message);
-    if (!anOptional.has_value())
+    zmq::pollitem_t items[] = {
+        {static_cast<void *>(receiver_), 0, ZMQ_POLLIN, 0},
+        {static_cast<void *>(end_work_), 0, ZMQ_POLLIN, 0}};
+    zmq::poll(&items[0], 2, -1);
+
+    if (items[0].revents & ZMQ_POLLIN)
+    {
+        zmq::message_t message;
+        const zmq::recv_result_t &anOptional = receiver_.recv(message);
+        if (!anOptional.has_value())
+        {
+            return "Error message";
+        }
+        return std::string(static_cast<char *>(message.data()), message.size());
+    }
+    else if (items[1].revents & ZMQ_POLLIN)
+    {
+        zmq::message_t message;
+        const zmq::recv_result_t &anOptional = end_work_.recv(message);
+        if (!anOptional.has_value())
+        {
+            return "Error message";
+        }
+        return std::string(static_cast<char *>(message.data()), message.size());
+    }
+    else
     {
         return "Error message";
     }
-    return std::string(static_cast<char *>(message.data()), message.size());
+
 }
 
 void Protocol::close()
 {
     sender_.close();
     receiver_.close();
+    end_work_.close();
     context_.close();
 }
