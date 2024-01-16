@@ -17,8 +17,8 @@ Protocol::Protocol(const std::string &brokerHost, const std::string &managerHost
 std::string Protocol::receive()
 {
     zmq::pollitem_t items[] = {
-            {static_cast<void *>(receiver_), 0, ZMQ_POLLIN, 0},
-            {static_cast<void *>(end_work_), 0, ZMQ_POLLIN, 0}};
+            {receiver_, 0, ZMQ_POLLIN, 0},
+            {end_work_, 0, ZMQ_POLLIN, 0}};
     zmq::poll(&items[0], 2, -1);
 
     if (items[0].revents & ZMQ_POLLIN)
