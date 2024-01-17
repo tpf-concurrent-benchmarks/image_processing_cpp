@@ -25,6 +25,9 @@ setup: init build
 deploy: create_directories
 	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local.yml up
 
+deploy-valgrind: create_directories
+	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local-valgrind.yml up
+
 deploy_remote: create_directories
 	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml ip_cpp
 
