@@ -76,7 +76,7 @@ services:
 
   format_worker:
     image: image_processing_cpp_format_worker
-    command: bash -c "sleep 10 && cd /app/format_worker/cmake-build-debug && ./format-worker"
+    command: sh -c "sleep 10 && cd /app/format_worker/cmake-build-debug && ./format-worker"
     tty: true
     stdin_open: true
     depends_on:
@@ -96,7 +96,7 @@ services:
 
   resolution_worker:
     image: image_processing_cpp_resolution_worker
-    command: bash -c "sleep 10 && cd /app/resolution_worker/cmake-build-debug && ./resolution-worker"
+    command: sh -c "sleep 10 && cd /app/resolution_worker/cmake-build-debug && ./resolution-worker"
     tty: true
     stdin_open: true
     depends_on:
@@ -116,7 +116,7 @@ services:
 
   size_worker:
     image: image_processing_cpp_size_worker
-    command: bash -c "sleep 10 && cd /app/size_worker/cmake-build-debug && ./size-worker"
+    command: sh -c "sleep 10 && cd /app/size_worker/cmake-build-debug && ./size-worker"
     tty: true
     stdin_open: true
     depends_on:
