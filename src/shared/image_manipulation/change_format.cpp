@@ -4,6 +4,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+// This function changes the format of an image from any format to PNG
 void change_format(const std::string& path, const std::string& output_path)
 {
     int input_width, input_height, input_channels;

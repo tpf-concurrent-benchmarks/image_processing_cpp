@@ -27,7 +27,7 @@ int main()
         }
         else
         {
-            std::string imageName = message.substr(message.find_last_of('/') + 1);
+            std::string imageName = message.substr(message.find_last_of('/') + 1); //gets the image name from the path
 
             std::chrono::milliseconds start_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch());

@@ -6,6 +6,7 @@
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "stb_image_resize2.h"
 
+// This function changes the resolution of an image, it uses a linear interpolation to resize the image
 void change_resolution(const std::string& path, int output_width, int output_height, const std::string& output_path)
 {
     int input_width, input_height, input_channels;

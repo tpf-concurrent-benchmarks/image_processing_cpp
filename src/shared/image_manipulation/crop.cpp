@@ -4,6 +4,9 @@
 #include "stb_image_write.h"
 #include <string>
 
+// This function crops an image from the given path and saves it in the given output path
+// x and y are the coordinates of the top left corner of the cropped image
+// width and height are the dimensions of the cropped image
 void _crop(unsigned char *input_image, const std::string& output_path, int x, int y, int width, int height, int input_width,
            int input_height, int input_channels)
 {
@@ -40,6 +43,8 @@ void crop(const std::string& path, const std::string& output_path, int x, int y,
     _crop(input_image, output_path, x, y, width, height, input_width, input_height, input_channels);
 }
 
+// This function crops an image from its center, meaning that the cropped image will have the given width and height
+// and it will be centered in the original image
 void crop_centered(std::string path, std::string output_path, int width, int height)
 {
     int input_width, input_height, input_channels;
