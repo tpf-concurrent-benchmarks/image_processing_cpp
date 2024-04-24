@@ -6,7 +6,7 @@ EXEC_BROKER = broker
 N_WORKERS = 2
 
 init:
-	docker swarm init
+	docker swarm init || true
 
 build:
 	docker rmi image_processing_cpp_size_worker -f
@@ -22,13 +22,13 @@ build:
 
 setup: init build
 
-deploy: create_directories
+deploy_local: create_directories
 	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local.yml up
 
 deploy-valgrind: create_directories
 	N_WORKERS=${N_WORKERS} docker compose -f=docker-compose-deploy-local-valgrind.yml up
 
-deploy_remote: create_directories
+deploy: create_directories
 	N_WORKERS=${N_WORKERS} docker stack deploy -c docker-compose-deploy.yml ip_cpp
 
 create_directories:
@@ -110,6 +110,9 @@ down_graphite:
 		docker stack rm cadvisor; \
 	fi
 .PHONY: down_graphite
+
+template_data: create_directories
+	wget https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/481px-Cat03.jpg -P shared_vol/input/
 
 # Cloud specific
 
