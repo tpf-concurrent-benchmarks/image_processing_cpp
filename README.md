@@ -32,9 +32,9 @@ stage.
 
 - `make deploy`: deploys the manager and worker services locally, alongside with Graphite, Grafana and cAdvisor.
 - `make remove`: removes all services (stops the swarm)
-- `make full_build_master_local:`  builds the manager locally (it downloads and builds all dependencies, so it may take a while). Same for `make full_build_worker_local`.
-- `make build_master_local:` builds the manager locally, useful when doing local development and you already run `make full_build_master_local:`. Same goes for the workers.
-- `make run_master_local:` runs the master locally. It asumes that the master project has been built. Same goes for the workers.
+- `make full_build_master_local`:  builds the manager locally (it downloads and builds all dependencies, so it may take a while). Same for `make full_build_worker_local`.
+- `make build_master_local`: builds the manager locally, useful when doing local development and you already run `make full_build_master_local`. Same goes for the workers.
+- `make run_master_local`: runs the master locally. It asumes that the master project has been built. Same goes for the workers.
 
 #### Local development
 
